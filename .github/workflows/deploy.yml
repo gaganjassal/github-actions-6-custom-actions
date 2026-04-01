@@ -24,8 +24,15 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v6.0.2
-      - name: Load & Cache Dependencies using Custom Action
-        uses: ./.github/myactions/cached-deps
+
+      # Local custom action
+      # - name: Load & Cache Dependencies using Custom Action
+      #   uses: ./.github/myactions/cached-deps
+
+      # Remote custom action from my GitHub 
+      - name: Load & Cache Dependencies using Custom Action from my GitHub repo
+        uses: gaganjassal/gha-my-custom-action-cache-dependency@v1
+      
       - name: Test code
         id: run-tests
         run: npm run test
@@ -41,8 +48,15 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v6.0.2
-      - name: Load & Cache Dependencies using Custom Action
-        uses: ./.github/myactions/cached-deps
+
+      # Local custom action
+      # - name: Load & Cache Dependencies using Custom Action
+      #   uses: ./.github/myactions/cached-deps
+
+      # Remote custom action from my GitHub 
+      - name: Load & Cache Dependencies using Custom Action from my GitHub repo
+        uses: gaganjassal/gha-my-custom-action-cache-dependency@v1
+
       - name: Build website
         run: npm run build
       - name: Upload artifacts
@@ -64,16 +78,16 @@ jobs:
       - name: Output contents
         run: ls
       # The following steps are placeholders for a CUSTOM docker ACTION for the actual deployment process, which would involve using AWS credentials and a custom action to deploy to S3. Since the credentials and bucket information are not set, these steps are commented out for now.
-      - name: Deploy site
-        id: deploy-site
-        uses: ./.github/myactions/deploy-s3-docker                    # THIS IS THE ONLY DIFFERENCE BETWEEN docker and node custom action
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}         # so far Not Set
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # so far Not Set
-        with:
-          bucket: my-aws-bucket-which-doesnt-exist                    # so far Not Set
-          bucket-region: ${{ secrets.S3_BUCKET_REGION }}              # so far Not Set
-          dist-folder: ./dist        
+      # - name: Deploy site
+      #   id: deploy-site
+      #   uses: ./.github/myactions/deploy-s3-docker                    # THIS IS THE ONLY DIFFERENCE BETWEEN docker and node custom action
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}         # so far Not Set
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # so far Not Set
+      #   with:
+      #     bucket: my-aws-bucket-which-doesnt-exist                    # so far Not Set
+      #     bucket-region: ${{ secrets.S3_BUCKET_REGION }}              # so far Not Set
+      #     dist-folder: ./dist        
       
       ## The following steps are placeholders for a CUSTOM node/JavaScript ACTION for the actual deployment process, which would involve using AWS credentials and a custom action to deploy to S3. Since the credentials and bucket information are not set, these steps are commented out for now.
       # - name: Deploy site
@@ -87,9 +101,9 @@ jobs:
       #     bucket-region: ${{ secrets.S3_BUCKET_REGION }}              # so far Not Set
       #     dist-folder: ./dist
 
-      - name: Output information
-        run: |
-          echo "Live URL: ${{ steps.deploy-site.outputs.website-url }}"
+      # - name: Output information
+      #   run: |
+      #     echo "Live URL: ${{ steps.deploy-site.outputs.website-url }}"
   information:
     runs-on: ubuntu-latest
     steps:
