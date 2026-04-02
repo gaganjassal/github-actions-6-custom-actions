@@ -86,12 +86,9 @@ jobs:
           role-to-assume: arn:aws:iam::307946639120:role/GitHubDemo1
           role-session-name: samplerolesession
           aws-region: us-east-1
-      - name: Deploy site
-        id: deploy-site
-        uses: ./.github/myactions/deploy-s3-docker                    # THIS IS THE ONLY DIFFERENCE BETWEEN docker and node custom action
-        with:
-          bucket: gha-security-demo-jgs
-          dist-folder: ./dist
+      - name: Copy index.html to s3
+        run: |
+          aws s3 cp ./index.html s3://gha-security-demo-jgs/
 
       # The following steps are placeholders for a CUSTOM docker ACTION for the actual deployment process, which would involve using AWS credentials and a custom action to deploy to S3. Since the credentials and bucket information are not set, these steps are commented out for now.
       # - name: Deploy site
